@@ -1,0 +1,28 @@
+.username{
+        background-color: #4267B2;
+        color: azure;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        
+
+
+}
+
+.posts{
+    border: 5px;
+    background-color: lightgrey;
+    text-align: center;
+    color: black;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+
+
+
+}
+
+.tableheader{
+        border: 5px;
+        background-color: rgb(69, 74, 141);
+        color: lightgrey;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+
+}
