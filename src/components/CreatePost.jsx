@@ -1,21 +1,25 @@
 import Button from '@mui/material/Button'
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useState } from "react"
 import superagent from 'superagent'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
+import  Paper  from "@mui/material/Paper"
+import root from "../index"
+import MainPage from "../containers/MainPage"
+
+require('./CreatePost.css')
 
 const CreatePost = () => {
 
-    const [ title, post, setPost ] = useState('')
-
-
-    
+    const [ post, setPost ] = useState('')
+    const [ title, setTitle ] = useState('')
 
     const sendPost = async () => {
 
          await superagent
-        .post('/blogPost')
-        .send({"postContent": post})
+        .post('/createBlogPost')
+        .send({"postContent": post,
+                "postTitle": title})
         .set('X-API-Key', 'foobar')
         .set('Accept', 'application/json')
         .then(res => {
@@ -29,20 +33,20 @@ const CreatePost = () => {
         sendPost()
     })
 
-    console.log(post)
-
-
     return(
-        <div>
-            <Box component="form" sx={{ '& .MuiTextField-root': { m: 1, width: '25ch' },}} noValidate autoComplete="off">
-        <div>
-            <TextField type="text" id="inputbox" label="Create a post!" defaultValue="Hello World">
+        <div class = "main">
+            <Paper style={{ width: '550px', height: '110px', margin : 'auto'}}>
+        <div class = "textboxdiv">
+            <TextField type="text" id="inputbox" label="Post" defaultValue="Hello World">
+            </TextField>
+            <TextField type="text" id="titlebox" label="Title" defaultValue="Post Title">
             </TextField>
         </div>
-        <div>        
-          <Button id="submitpost" variant="contained" color='primary' onClick = {(event) => {setPost(document.getElementById('inputbox').value)}}>Submit</Button>
-        </div>
-    </Box>
+        <div class = "buttondiv">        
+                <Button id="submitpost" variant="contained" color='primary' onClick = {(event) => {setPost(document.getElementById('inputbox').value); setTitle(document.getElementById('titlebox').value)}}>Submit</Button>
+            </div>
+        
+    </Paper>
             
         </div>
 

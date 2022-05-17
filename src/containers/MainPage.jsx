@@ -1,12 +1,8 @@
 
 import React, { useEffect, useState } from "react"
 import superagent from 'superagent'
-import Table from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TableRow from '@mui/material/TableRow'
-import Paper from '@mui/material/Paper'
+import Post from '../components/Post'
+import Box from "@mui/material/Box"
 
 
 require('./MainPage.css')
@@ -18,13 +14,9 @@ const MainPage = () => {
     const getPost = async () => {
 
         const response = await superagent.get('/getall')
-
         const resObject = JSON.parse(response.text)
-
         console.log(resObject)
-
         setPosts(resObject)
-
     }
 
     useEffect(() => {
@@ -33,28 +25,20 @@ const MainPage = () => {
 
     return(
 
-        <div>
+        <div class = "maincontainer">
             
-            <div>
-            <TableContainer style = {{ width: '500px'}} component = {Paper}>
-            <Table>
-                <TableBody>
-                    <TableRow class = "tableheader">
-                        <th>Post Title</th>
-                        <th>Anonymous Posts</th>
-                    </TableRow>
-                    {posts.map((post, key) =>{
+            <Box style = {{margin : 'auto', width : '502px', maxHeight: '1000px', overflow: 'auto', }}>
+                {posts.map((post, key) =>{
                         return(
-                        <TableRow key={key}> 
-                            <TableCell class = 'posts'>{post.postTitle}</TableCell>
-                            <TableCell class = 'posts'>{post.postContent}</TableCell>
-                        </TableRow>
+                        <Post 
+                        key = {key}
+                        postContent={post.postContent}
+                        postTitle={post.postTitle}
+                        postID={post._id}
+                        />
                         )
-                    })}
-                </TableBody>
-                </Table>
-                </TableContainer>
-                </div>
+                    })}     
+            </Box>
         </div>
     )
 }

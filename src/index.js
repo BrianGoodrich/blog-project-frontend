@@ -3,8 +3,9 @@ import { createRoot } from 'react-dom/client'
 import MainPage from './containers/MainPage'
 import ReactDOM from 'react-dom'
 import CreatePost from './components/CreatePost'
-import DeletePost from './components/DeletePost'
-import EditPost from './components/EditPost'
+import Post from './components/Post'
+
+
 
 const rootElement = document.getElementById('root')
 const root = createRoot(rootElement)
@@ -12,10 +13,9 @@ const root = createRoot(rootElement)
 
 root.render(
   <StrictMode>
-    <MainPage />
     <CreatePost />
-    <EditPost />
-    <DeletePost />
+    <MainPage />
   </StrictMode>
 )
 
+export default root
