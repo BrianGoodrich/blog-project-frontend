@@ -7,20 +7,18 @@ import  Paper  from "@mui/material/Paper"
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 
-
 //The concept for the edit functionality was learned from this youtube video: https://www.youtube.com/watch?v=EbnmosN64JQ I had to heavily modify it to fit this project but that is what I used to conceptually build the edit portion, with my own syntax.
 //All other portions of this project were built from class notes, old projects, and documentation.
-
 
 require('./MainPage.css')
 
 const MainPage = () => {
 
-    const [ posts, setPosts ] = useState([])
-    const [ editPostID, setEditPostID] = useState([])
+    const [ posts, setPosts ] = useState([]) 
+    const [ editPostID, setEditPostID] = useState([]) //Will use this to edit specific posts using the ID assigned when mapped
     
 
-    const getPost = async () => {
+    const getPost = async () => { //Function to grab all the posts from the database.
 
         const response = await superagent.get('/getall')
         const resObject = JSON.parse(response.text)
@@ -30,15 +28,6 @@ const MainPage = () => {
     useEffect(() => {
         getPost()
     }, [])
-
-    //Function for refreshing after create delete and edit post.
-    const refreshOnClick = async () => {
-
-        const newPosts = await superagent.get('/getall')
-        const resObject = JSON.parse(newPosts.text)
-        setPosts(resObject)
-        
-    }
 
     //Function for creating posts
     const CreatePost = () => {
@@ -57,14 +46,11 @@ const MainPage = () => {
             .then(res => {
                 console.log(JSON.stringify(res.body))
 
-            })
-    
-            
+            })    
         }
     
         useEffect(() => {
-            sendPost()
-            
+            sendPost()   
         })
     
         return(
@@ -78,14 +64,12 @@ const MainPage = () => {
                     </div>
                     <div class = "buttondiv">        
                         <Button id="submitpost" variant="contained" color='primary' 
-                        onClick = {(event) => {setNewPost(document.getElementById('inputbox').value); setTitle(document.getElementById('titlebox').value); refreshOnClick()}}>Submit</Button>
+                        onClick = {(event) => {setNewPost(document.getElementById('inputbox').value); setTitle(document.getElementById('titlebox').value); getPost()}}>Submit</Button>
                     </div>  
                 </Paper>
                 
             </div>
-    
     )}
-
 
     //Function to build each post 
     const Post = ({postContent, postTitle, postID}) => {
@@ -97,7 +81,6 @@ const MainPage = () => {
                     .then(res => {
                         console.log(post)
                     })
-    
         }
 
         const sendEditedPost = async (editedText, post) => {
@@ -113,7 +96,7 @@ const MainPage = () => {
             console.log(JSON.stringify(res.body))
 
             setEditPostID(null) //This will set our editpostid back to null so that we are rendering the feed normally without the edit box.
-            refreshOnClick() //This will refresh the feed after we submit our edit changes
+            getPost() //This will refresh the feed after we submit our edit changes
 
            })
        }
@@ -151,7 +134,7 @@ const MainPage = () => {
                 <Button id="editpost" variant="contained" color="primary" margin = "5px" onClick = {(event) => {setEditPostID(postID)}}>Edit</Button> 
             </Box>
             <Box width = "50px" display = "inline" margin = "5px">
-                <Button id="deletepost" variant="contained" color="primary" margin = "5px"  onClick = {(event) => {removePost(postID); refreshOnClick()}}>Delete</Button>      
+                <Button id="deletepost" variant="contained" color="primary" margin = "5px"  onClick = {(event) => {removePost(postID); getPost()}}>Delete</Button>      
             </Box>
             </div>
                  }    
